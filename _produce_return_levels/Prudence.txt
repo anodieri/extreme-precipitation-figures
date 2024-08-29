@@ -1,0 +1,9 @@
+"lon_west" "lon_east" "lat_south" "lat_north"
+"(BI) British Isles" -10 2 50 59
+"(IP) Iberian Peninsula" -10 3 36 44
+"(FR) France" -5 5 44 50
+"(ME) Mid-Europe" 2 16 48 55
+"(SC) Scandinavia" 5 30 55 70
+"(AL) Alps" 5 15 44 48
+"(MD) Mediterranean" 3 25 36 44
+"(EA) Eastern Europe" 16 30 44 55
