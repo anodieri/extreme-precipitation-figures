@@ -87,6 +87,8 @@ plot_table_partial<-function(dur, country,legend=FALSE, ylabs=TRUE){
   summary$rcm<-sub(".*?-","",summary$rcm)
   summary$rcm[summary$rcm=='ETH-COSMO-crCLIM-v1-1']<-sub(".*?-","",summary$rcm[summary$rcm=='ETH-COSMO-crCLIM-v1-1'])
   summary$rcm<-sub("-.*","",summary$rcm) #shorten names even further
+  summary$rcm[summary$rcm=='RegCM4']<-"RegCM4-6" #but this one does not need to be shortened that much
+  
    
   #construct gcm names using function defined above
   summary$gcm<-sapply(summary$gcm, FUN = make_title_gcm)
