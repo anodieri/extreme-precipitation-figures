@@ -221,19 +221,19 @@ plot_frequency_region<-function(dur,region, include2CC=FALSE, save=FALSE, relati
     #scale_fill_scico_d('', palette = 'batlow')+
     #scales for color, fill and linetype
     scale_color_manual('', breaks=c(paste0('f',dur,'1.5'),paste0('f',dur,'3'),paste0('f',dur,'CC'),paste0('f',dur,'2CC')),
-                       values=c('black', 'darkblue','red','green4'), 
+                       values=c('black', 'lightseagreen','red','green4'), 
                        labels=c('+1.5°C','+3°C','CC','Super CC'))+
     scale_fill_manual('', breaks=c(paste0('f',dur,'1.5'),paste0('f',dur,'3'),paste0('f',dur,'CC'),paste0('f',dur,'2CC')),
-                      values=c('black', 'darkblue','red','green4'))+
+                      values=c('black', 'lightseagreen','red','green4'))+
     scale_linetype_manual('', breaks=c(paste0('f',dur,'1.5'),paste0('f',dur,'3'),paste0('f',dur,'CC'),paste0('f',dur,'2CC')),
-                          values=c('solid','longdash','dotdash','dotted'),labels=c('+1.5°C','+3°C','CC','Super CC'))+
+                          values=c('solid','dashed','dotdash','dotted'),labels=c('+1.5°C','+3°C','CC','Super CC'))+
     scale_x_continuous(labels=means$return_period, breaks=means$ticks)+ #set y axis ticks
     ylim(range)+  #apply the uniform range
     theme(text=element_text(size=16),#set sizes of various plot elements
           axis.text = element_text(size=16), 
           axis.title = element_text(size=17),
           legend.text = element_text(size = 18),
-          legend.key.size = unit(40, 'pt')) 
+          legend.key.size = unit(45, 'pt')) 
   
   #remove legend if needed
   if(!legend){
