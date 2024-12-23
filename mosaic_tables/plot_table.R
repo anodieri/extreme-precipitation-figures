@@ -87,17 +87,16 @@ plot_table_partial<-function(dur, country,legend=FALSE, ylabs=TRUE){
   summary$rcm<-sub(".*?-","",summary$rcm)
   summary$rcm[summary$rcm=='ETH-COSMO-crCLIM-v1-1']<-sub(".*?-","",summary$rcm[summary$rcm=='ETH-COSMO-crCLIM-v1-1'])
   summary$rcm<-sub("-.*","",summary$rcm) #shorten names even further
-  summary$rcm[summary$rcm=='RegCM4']<-"RegCM4-6" #but this one does not need to be shortened that much
-  
    
   #construct gcm names using function defined above
   summary$gcm<-sapply(summary$gcm, FUN = make_title_gcm)
   
   #construct title
   if(dur=='1h'){
-    title=paste( country_names[country], "\n", sub('h',' h', dur), sep="")
+    #country_names[country],
+    title=paste(  "\n                  ", sub('h',' h', dur), sep="")
   }else{
-    title=paste("\n", sub('h',' h', dur))
+    title=paste("\n               ", sub('h',' h', dur))
   }
   
   #plot the table 
@@ -107,6 +106,7 @@ plot_table_partial<-function(dur, country,legend=FALSE, ylabs=TRUE){
     coord_equal()+ #make tiles square
     ggtitle(title)+ #add title
     theme(text=element_text(size=28), legend.key.size = unit(4, 'cm'),  #set size of various plot elements
+          plot.title = element_text(size = 38),
           axis.text.x = element_text(angle=20, vjust = 0.9, hjust = 0.8),
           panel.grid.major = element_blank(), #remove grid
           axis.title = element_blank(), #remove axis title
@@ -163,14 +163,14 @@ plot_mega_table<-function(save=FALSE){
   
   #save if needed
   if(save){
-      ggsave(paste("table.pdf", sep=''),g, width=30, height =25 , units = 'in')
+      ggsave(paste("table_blank_middle.pdf", sep=''),g, width=30, height =25 , units = 'in')
   }
   return(g)
 }
 plot_mega_table(save=FALSE)
 
 #EDIT PATH IF NEEDED
-setwd("C:/Users/Anouk/Documents/cursussen/MP/extreme precipitation figures/mosaic_tables")
+setwd("C:/Users/dierickx/OneDrive - vki.ac.be/Documents/master/MP/extreme precipitation figures/mosaic_tables")
 
 #save the mega table
 plot_mega_table(save=TRUE)
