@@ -55,6 +55,7 @@ N_countries<-length(unique(data$country)) #number of countries
 N_gcm<-length(unique(data$gcm)) #number of gcms
 N_rcm<-length(unique(data$rcm)) #number of rcms
 
+N = 27 #the total number of simulations (different runs are counted as one as these are merged)
 
 #total variance by country (den, ned, fin, uk, bel or dui)
 #variance is computed by country
@@ -97,7 +98,8 @@ WGNV<-function(dur){
   WGNV=0 #initialise at zero
   for(gcm_i in unique(data$gcm)){ # for each gcm
     N_gcm_i=sum(data$gcm==gcm_i)/N_countries #get number of runs with this gcm
-    WGNV=WGNV+WGNV_GCM_i(dur=dur,gcm_n = gcm_i)/N_gcm_i #and add WGNV_i divided by this number to total
+    WGNV=WGNV+WGNV_GCM_i(dur=dur,gcm_n = gcm_i)*N_gcm_i/N #and add WGNV_i divided by this number to total
+    #WGNV=WGNV+WGNV_GCM_i(dur=dur,gcm_n = gcm_i)/N_gcm_i #and add WGNV_i divided by this number to total
   }
   return(WGNV)
 }
@@ -128,7 +130,8 @@ WRNV<-function(dur){
   WRNV=0
   for(rcm_j in unique(data$rcm)){
     N_rcm_j=sum(data$rcm==rcm_j)/N_countries
-    WRNV=WRNV+WRNV_RCM_j(rcm = rcm_j, dur=dur)/N_rcm_j
+    #WRNV=WRNV+WRNV_RCM_j(rcm = rcm_j, dur=dur)/N_rcm_j
+    WRNV=WRNV+WRNV_RCM_j(rcm = rcm_j, dur=dur)*N_rcm_j/N
   }
   return(WRNV)
 }
@@ -148,16 +151,26 @@ type<-rep('historical',length(Durations))
 #construct data frame containing these values
 df_hist<-data.frame(Durations,WRNVs,WGNVs, type)
 
-#plot
-ggplot()+geom_point(df_hist, mapping=aes(x = WGNVs,y=WRNVs, color=factor(Durations, levels=c('1h','6h','12h','24h','48h','72h'))), size=3)+
-  geom_abline(slope=1, intercept = 0)+
-  xlim(c(0,1))+
-  ylim(c(0,1))+
+df<-df_hist
+#add space in between duration and h 
+df$Durations<-sub('h',' h',df$Durations)
+
+#actual plotting
+g<-ggplot()+geom_point(df, mapping=aes(x = WGNVs,y=WRNVs,
+                                       color=factor(Durations, levels=c('1 h','6 h','12 h','24 h','48 h','72 h'))), size=4)+
+  geom_abline(slope=1, intercept = 0, linetype='dashed')+ #reference line
+  xlim(c(0,1))+ #limits x axis
+  ylim(c(0,1))+ #limits y axis
   xlab("Within GCM normalised variance")+
   ylab("Within RCM normalised variance")+
-  ggtitle('Variance of biases EURO-CORDEX')+
-  scale_color_discrete('Durations')+
-  theme(text=element_text(size=16))
+  scale_color_scico_d('Durations', palette='managua')+ #color scale
+  theme(text=element_text(size=14)) #text size
+g
+
+#save plot
+#EDIT PATH IF NEEDED
+ggsave("variance_of_biases_hist.pdf",
+       g, width=7, height = 4.3, units = 'in', dpi = 300)  
 
 
 #  CHANGE IN INTENSITY BETWEEN GWL +1.5°C AND +3°C ----------------------------
@@ -182,6 +195,8 @@ data<-data_all_regions_rel_after_mean
 N_regions<-length(unique(data$region)) #number of PRUDENCE regions 
 N_gcm<-length(unique(data$gcm)) #number of gcms
 N_rcm<-length(unique(data$rcm)) #number of rcms
+
+N = 33 #total number of individual runs/simulations
 
 #total variance by region (FR, ME, MD, BI, IP, EA, SC, AL)
 #problem with the normalisation using the total variance as above
@@ -216,7 +231,7 @@ WGNV_GCM_i<-function(dur, gcm_i){
   }
   WGNV_i<-1/(N_regions*N_rcm)*sum((data_gcm[varname]-data_gcm$B_ik)^2) #final calculation
   l=nrow(data_gcm)
-  print(l)
+  #print(l)
   #WGNV_i<-1/l*sum((data_gcm[varname]-data_gcm$B_ik)^2) #final calculation
   return(WGNV_i)
 }
@@ -228,7 +243,8 @@ WGNV<-function(dur){
   WGNV=0 
   for(gcm_i in unique(data$gcm)){
     N_gcm_i=sum(data$gcm==gcm_i)/N_regions
-    WGNV=WGNV+WGNV_GCM_i(gcm_i = gcm_i, dur=dur)/N_gcm_i
+    #WGNV=WGNV+WGNV_GCM_i(gcm_i = gcm_i, dur=dur)/N_gcm_i 
+    WGNV=WGNV+WGNV_GCM_i(gcm_i = gcm_i, dur=dur)*N_gcm_i/N 
   }
   return(WGNV)
 }
@@ -261,7 +277,8 @@ WRNV<-function(dur){
   WRNV=0
   for(rcm_j in unique(data$rcm)){
     N_rcm_j=sum(data$rcm==rcm_j)/N_regions
-    WRNV=WRNV+WRNV_RCM_j(rcm = rcm_j, dur=dur)/N_rcm_j
+    #WRNV=WRNV+WRNV_RCM_j(rcm = rcm_j, dur=dur)/N_rcm_j
+    WRNV=WRNV+WRNV_RCM_j(rcm = rcm_j, dur=dur)*N_rcm_j/N
   }
   return(WRNV)
 }
@@ -279,16 +296,28 @@ type<-rep('future',length(Durations))
 #construct data frame
 df_future<-data.frame(Durations,WRNVs,WGNVs, type)
 
-#plot
-ggplot()+geom_point(df_future, mapping=aes(x = WGNVs,y=WRNVs, color=factor(Durations, levels=c('1h','12h','24h'))), size=3)+
-  geom_abline(slope=1, intercept = 0)+
-  xlim(c(0,1.5))+
-  ylim(c(0,1.5))+
+df<-rbind(df_future) #merge historical and future dataframe
+#add space in between duration and h 
+df$Durations<-sub('h',' h',df$Durations)
+
+#actual plotting
+g<-ggplot()+geom_point(df, mapping=aes(x = WGNVs,y=WRNVs,
+                                       color=factor(Durations, levels=c('1 h','6 h','12 h','24 h','48 h','72 h'))), size=4)+
+  geom_abline(slope=1, intercept = 0, linetype='dashed')+ #reference line
+  scale_shape_discrete('', labels=c('Relative change \nbetween GWLs\n+1.5°C and +3°C', 'Historical bias'))+
+  xlim(c(0,1))+ #limits x axis
+  ylim(c(0,1))+ #limits y axis
   xlab("Within GCM normalised variance")+
   ylab("Within RCM normalised variance")+
-  ggtitle('Variance of biases EURO-CORDEX')+
-  scale_color_discrete('Durations')+
-  theme(text=element_text(size=16))
+  #scale_color_manual('Durations', values = c('orange','darkred','darkblue'))+
+  scale_color_scico_d('Durations', palette='managua')+ #color scale
+  theme(text=element_text(size=14)) #text size
+g
+
+#save plot
+#EDIT PATH IF NEEDED
+ggsave("variance_of_biases_future.pdf",
+       g, width=7, height = 4.3, units = 'in', dpi = 300)  
 
 
 # plotting historical and future ------------------------------------------
@@ -315,3 +344,4 @@ g
 #EDIT PATH IF NEEDED
 ggsave("variance_of_biases.pdf",
        g, width=7, height = 4.3, units = 'in', dpi = 300)  
+
