@@ -62,7 +62,7 @@ names(cors)[names(cors) == 'value'] <- 'cor'
 #set colors for plotting
 obs_col = 'black'
 be_col = '#05598c'
-euro_col = 'darkseagreen2' #'#fefeb2'#
+euro_col = 'lightseagreen' #'darkseagreen2' #'#fefeb2'#
 euro_col_lines = 'gray45'
 
 #some hacking to be able to get legends in plot
@@ -73,7 +73,7 @@ bias$fill<-'star'
 #plotting
 g<-ggplot()+
   #boxplots for the EURO-CORDEX models:
-  geom_boxplot(bias[bias$euro==TRUE,],mapping=aes(y=bias,x=dur, fill = fill), 
+  geom_boxplot(bias[bias$euro==TRUE,],mapping=aes(y=bias,x=dur, fill = fill), alpha=0.5,
                color=euro_col_lines)+
   #points for the CORDEX.be models
   geom_point(bias[bias$euro==FALSE,], mapping=aes(y=bias,x=dur, shape = shape),
@@ -102,7 +102,7 @@ obs$shape<-'circle'
 #plotting
 h<-ggplot()+
   #boxplots for the EURO-CORDEX models:
-  geom_boxplot(cors[cors$euro==TRUE,],mapping=aes(y=cor,x=dur, fill = fill), 
+  geom_boxplot(cors[cors$euro==TRUE,],mapping=aes(y=cor,x=dur, fill = fill), alpha = 0.5,
                color=euro_col_lines)+
   #points for the CORDEX.be models
   geom_point(cors[cors$euro==FALSE,], mapping=aes(y=cor,x=dur, shape = shape),
