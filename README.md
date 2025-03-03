@@ -8,3 +8,6 @@ One folder, `_produce_return_levels` contains scripts to calculate return levels
 Belgium, UK, Germany, Finland, Denmark and the Netherlands. Furthermore it contains a script to create the masks on which the calculation of return levels
 depends, a script to add the elevation to the dataframes and a script to create the summaries containing e.g. the bias which is used in the figures.
 There is no need to use this folder except if something should be changed about the return level calculation.
+
+## References
+Van de Vyver, Hans; Van Schaeybroeck, Bert; De Cruz, Lesley (2024). Subdaily Precipitation Extremes in the EURO-CORDEX 0.11° Ensemble. World Data Center for Climate (WDCC) at DKRZ. https://doi.org/10.26050/WDCC/EURCORDEX_prec
