@@ -1,5 +1,5 @@
 # Extreme precipitation figures
-Code to estimate return levels from the EURO-SUPREME dataset (see references), which contains annual maxima of precipitation from the EURO-CORDEX 0.11° climate models (CMIP5 generation). Different kinds of plots are made using the return levels (maps, contribution from GCM and RCM, ...).
+Code to estimate return levels from the EURO-SUPREME dataset (see references), which contains annual maxima of precipitation from the EURO-CORDEX 0.11° climate models (CMIP5 generation). The plots in the preprint https://essd.copernicus.org/preprints/essd-2025-30/ are made using this repository. 
 
 One folder, `_produce_return_levels` contains scripts to calculate return levels from the annual maxima for historical simulations in six countries: 
 Belgium, UK, Germany, Finland, Denmark and the Netherlands. Furthermore it contains a script to create the masks on which the calculation of return levels
